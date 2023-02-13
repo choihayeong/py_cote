@@ -9,9 +9,9 @@ array = [7,5,9,0,3,1,6,2,4,8]
 
 for i in range(len(array)):
 	min_index = i #가장 작은 원소의 인덱스
-    for j in range(i+1, len(array)):
-    	if array[min_index] > array[j]:
-        	min_index = j
+  for j in range(i+1, len(array)):
+  	if array[min_index] > array[j]:
+    	min_index = j
 	array[i], array[min_index] = array[min_index], array[i] #swap
     
 print(array)
@@ -33,10 +33,10 @@ array = [7,5,9,0,3,1,6,2,4,8]
 
 for i in range(1, len(array)):
 	for j in range(i, 0, -1): # 인덱스 i부터 1까지 감소하며 반복하는 문법
-    	if array[j] < array[j-1]: # 한 칸씩 왼쪽으로 이동
-        	array[j], array[j-1] = array[j-1], array[j]
-        else: # 자기보다 작은 데이터를 만나면 그 위치에서 멈춤
-        	break
+    if array[j] < array[j-1]: # 한 칸씩 왼쪽으로 이동
+      array[j], array[j-1] = array[j-1], array[j]
+    else: # 자기보다 작은 데이터를 만나면 그 위치에서 멈춤
+    	break
             
 print(array)
 ```
@@ -55,21 +55,79 @@ print(array)
 
 ### 퀵 정렬이 빠른 이유: 직관적인 이해
 이상적인 경우 분할이 절반씩 일어난다면 전체 연산 횟수로 O(NlogN)를 기대할 수 있음
-- 너비 X 높이 = N X logN = NlogN
+- <b>너비 X 높이</b> = N X logN = NlogN
 
 ### 퀵 정렬의 시간 복잡도
 - 퀵 정렬은 평균의 경우 O(NlogN)의 시간 복잡도를 가짐
 - 최악의 경우 O(N^2)의 시간 복잡도를 가짐.
   * 첫 번째 원소를 피벗으로 삼을 때, 이미 정렬된 배열에 대해서 퀵 정렬을 수행하면?
 
+```python
+array = [5,7,9,0,1,6,2,4,8]
+
+def quick_sort(array, start, end):
+	if start >= end: # 원소가 1개인 경우 종료
+    return
+  pivot = start # 피벗은 첫 번째 원소
+  left = start + 1
+  right = end
+  while left <= right:
+    # 피벗보다 큰 데이터를 찾을 때까지 반복
+    while left <= end and array[left] <= array[pivot]:
+      left += 1
+      # 피벗보다 작은 데이터를 찾을 때까지 반복
+      while right > start and array[right] >= array[pivot]:
+        right -= 1
+      if left > right: # 엇갈릴 경우 작은 데이터와 피벗을 교체
+        array[right], array[pivot] = array[pivot], array[right]
+      else: 
+        array[left], array[right] = array[right], array[left]
+  # 분할 이후 왼쪽 오른쪽 부분에서 각각 정렬 수행
+  quick_sort(array, start, right-1)
+  quick_sort(array, right+1, end)
+    
+quick_sort(array, 0, len(array)-1)
+print(array)
+```
+
+```python
+array = [5,7,9,0,3,1,6,2,4,8]
+
+def quick_sort(array):
+	if len(array) <= 1:
+    return array
+        
+  pivot = array[0]
+  tail = array[1:]
+    
+  left_side = [x for x in tail if x <= pivot]
+  right_side = [x for x in tail if x > pivot]
+    
+  return quick_sort(left_side) + [pivot] + quick_sort(right_side)
+    
+print(quick_sort(array))
+```
+
 ## 계수 정렬(Count Sort)
-- 특정한 조건이 부합할 때만 사용할 수 있지만 매우 빠르게 동작하는 정렬 알고리즘
-  * 계수 정렬은 데이터의 크기 범위가 제한되어 정수 형태로 표현할 수 있을 때 사용 가능
+- 특정한 조건이 부합할 때만 사용할 수 있지만 <b>매우 빠르게 동작하는</b> 정렬 알고리즘
+  * 계수 정렬은 <b>데이터의 크기 범위가 제한되어 정수 형태로 표현할 수 있을 때</b> 사용 가능
 - 데이터의 개수가 N, 데이터(양수) 중 최댓값이 K일 때 최악의 경우에도 수행 시간 O(N + K)를 보장
+
+```python
+array = [7,5,9,0,3,1,6,2,9,1,4,8,0,5,2]
+count = [0] * (max(array) + 1) # 0으로 초기화
+
+for i in range(len(array)):
+	count[array[i]] += 1 
+    
+for i in range(len(count)):
+	for j in range(count[i]):
+    print(i, end=' ')
+```
 
 ### 계수 정렬의 복잡도 분석
 - 계수 정렬의 시간 복잡도와 공간 복잡도는 모두 O(N + K)
 - 계수 정렬은 때에 따라서 심각한 비효율성을 초래할 수 있습니다.
   * 데이터가 0과 999,999로 단 2개만 존재하는 경우
-- 계수 정렬은 동일한 값을 가지는 데이터가 여러 개 등장할 때 효과적으로 사용 가능
+- 계수 정렬은 <b>동일한 값을 가지는 데이터가 여러 개 등장할 때</b> 효과적으로 사용 가능
   * 성적의 경우 100점을 맞은 학생이 여러 명일 수 있기 때문에 계수 정렬이 효과적
