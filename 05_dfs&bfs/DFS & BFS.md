@@ -37,6 +37,10 @@ visited = [False] * 9
 dfs(graph, 1, visited)
 ```
 
+* graph 이미지
+<img src="https://user-images.githubusercontent.com/90609686/220237776-2aab42b3-adbe-465a-907f-dbac7fd5a974.jpg">
+
+
 # BFS(Breadth-First Search)
 - BFS는 <b>너비 우선 탐색</b>이라고도 부르며, 그래프에서 <b>가까운 노드부터 우선적으로 탐색하는 알고리즘</b>
 - BFS는 <b>큐 자료구조</b>를 이용
