@@ -38,7 +38,7 @@ dfs(graph, 1, visited)
 ```
 
 * graph 이미지
-<img src="https://user-images.githubusercontent.com/90609686/220237776-2aab42b3-adbe-465a-907f-dbac7fd5a974.jpg">
+<img src="https://user-images.githubusercontent.com/90609686/220238866-dba23bbe-bd2c-49d4-be2b-c0e004a4cdbc.jpg">
 
 
 # BFS(Breadth-First Search)
